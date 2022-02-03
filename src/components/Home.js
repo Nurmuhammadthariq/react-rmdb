@@ -6,6 +6,7 @@ import HeroImage from './HeroImage';
 import Grid from './Grid';
 import Thumb from './Thumb';
 import Spinner from './Spinner';
+import SearchBar from './SearchBar';
 
 //Hook
 import { useHomeFetch } from '../hooks/useHomeFetch';
@@ -14,20 +15,21 @@ import { useHomeFetch } from '../hooks/useHomeFetch';
 import NoImage from '../images/no_image.jpg';
 
 const Home = () => {
-  const { state, loading, error } = useHomeFetch();
+  const { state, loading, error, setSearchTerm, searchTerm } = useHomeFetch();
 
   const randomNumber = Math.floor(Math.random() * 10);
 
   return (
     <div>
-      {state.results[randomNumber] ? (
+      {!searchTerm && state.results[randomNumber] ? (
         <HeroImage
           image={`${IMAGE_BASE_URL}${BACKDROP_SIZE}${state.results[randomNumber].backdrop_path}`}
           title={state.results[randomNumber].original_title}
           text={state.results[randomNumber].overview}
         />
       ) : null}
-      <Grid header="Popular Movies">
+      <SearchBar setSearchTerm={setSearchTerm} />
+      <Grid header={searchTerm ? 'Search Result' : 'Popular Movies'}>
         {state.results.map((movie) => (
           <Thumb
             key={movie.id}
@@ -41,7 +43,7 @@ const Home = () => {
           />
         ))}
       </Grid>
-      <Spinner />
+      {/* <Spinner /> */}
     </div>
   );
 };
