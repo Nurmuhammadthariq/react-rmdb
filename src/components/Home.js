@@ -21,7 +21,7 @@ const Home = () => {
 
   const randomNumber = Math.floor(Math.random() * 10);
 
-  console.log(state);
+  // console.log(state);
 
   //Display error
 
